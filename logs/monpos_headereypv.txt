@@ -1,0 +1,5 @@
+update_insert:
+O-9796: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE 5700"}
+"ANT # / TYPE" : {1:"TRM39105.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"", 1:"0", 2:"0" }

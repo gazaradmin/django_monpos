@@ -1,0 +1,15 @@
+update_insert:
+O-4267: 
+"REC # / TYPE / VERS" : { 1:"TRM5800"}
+"ANT # / TYPE" : {1:"TRM5800", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.558", 1:"0", 2:"0" }
+update_insert:
+O-5254: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE R8-4"}
+"ANT # / TYPE" : {1:"TRMR8-4", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.351", 1:"0", 2:"0" }
+update_insert:
+O-6234: 
+"REC # / TYPE / VERS" : { 1:"TRMR10"}
+"ANT # / TYPE" : {1:"TRMR10", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.246", 1:"0", 2:"0" }

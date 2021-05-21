@@ -1,0 +1,15 @@
+update_insert:
+O-2831: 
+"REC # / TYPE / VERS" : { 1:"CHC I50"}
+"ANT # / TYPE" : {1:"CHCI50", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.404", 1:"0", 2:"0" }
+update_insert:
+O-8583: 
+"REC # / TYPE / VERS" : { 1:"CHC I50"}
+"ANT # / TYPE" : {1:"CHCI50", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.378", 1:"0", 2:"0" }
+update_insert:
+O-0935: 
+"REC # / TYPE / VERS" : { 1:"CHC X91+"}
+"ANT # / TYPE" : {1:"CHCX91+S", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.353", 1:"0", 2:"0" }

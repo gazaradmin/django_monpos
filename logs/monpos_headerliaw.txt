@@ -1,0 +1,5 @@
+update_insert:
+O-GTST: 
+"REC # / TYPE / VERS" : { 1:"LEIATX1230+GNSS"}
+"ANT # / TYPE" : {1:"LEIAX1202GG", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.41", 1:"0", 2:"0" }

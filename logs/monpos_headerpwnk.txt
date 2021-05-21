@@ -1,0 +1,5 @@
+update_insert:
+O-N298: 
+"REC # / TYPE / VERS" : { 1:"SOK GSR2700 RSX"}
+"ANT # / TYPE" : {1:"SOK_GSR2700ISX", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.28", 1:"0", 2:"0" }

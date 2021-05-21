@@ -1,0 +1,171 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<form method="post" action="" enctype="multipart/form-data"">
+    {% csrf_token %}
+    <div class=" row">
+        <div class="col-lg-5">
+            <div class="row justify-content-md-center">
+                <div class="col-lg-6">
+                    <div class="col-lg-6">ОРОЛТ
+                        {% if messages %}
+                        {% for message in messages %}
+                        alert(message);
+                        {% endfor %}
+                        {% endif %}
+                    </div><br>
+                    {{ inform.as_p}}
+                </div>
+    
+                <div class="col-lg-6">
+                    <div class="col-lg-6">ГАРАЛТ</div><br>
+                  {{outform.as_p}}
+                    <!-- {{ outform }} -->
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="col-lg-6">Файл хөрвүүлэх
+            </div><br>
+            <form id="form2" action="upload-conv"  method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+           
+
+
+
+
+        </div>      
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">Хөрвүүлэх</button><br>
+        </div>
+    </div>
+    <div id = "map" style="width: 100%; height: 500px; position: relative; outline: none; " >
+    </div>
+    <script>
+        var OpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }),
+        ESRI = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' });
+        Surface = L.tileLayer('https://geoportal.nsdi.gov.mn/alagac/rest/services/Database/CivilTopo_V4/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' })
+        
+        
+        
+        var baseMaps = {
+        "OSM": OpenStreetMap,
+        "Ортофото зураг": ESRI,
+        "Гадаргын зураг": Surface,
+        };
+        //	<!--  layer controll heseg -->
+        var map = L.map('map', {
+        center: [48, 106.5],
+        zoom: 5,
+        layers: ESRI
+        });
+        L.control.layers(baseMaps).addTo(map);
+        var x_map = '{{ x_map }}';
+        var y_map = '{{ y_map }}';
+        L.marker([x_map,y_map]).addTo(map);
+    </script>
+    <script>
+        function sysin() {
+            var labels = document.getElementsByTagName('LABEL');
+            for (var i = 0; i < labels.length; i++) {
+                if (labels[i].htmlFor != '') {
+                    var elem = document.getElementById(labels[i].htmlFor);
+                    if (elem)
+                        elem.label = labels[i];
+                }
+            }
+            var selObj = document.getElementById("id_sys_in");
+            var selValue = selObj.options[selObj.selectedIndex].value;
+            if (selValue == selValue.match(/3.*/)) {
+                document.getElementById('id_x_in').label.innerHTML = "x (m)";
+                document.getElementById('id_y_in').label.innerHTML = "y (m)";
+                //            document.getElementById("X_in").innerHTML = selValue;
+                document.getElementById('id_z_in').label.style.display = 'none';
+                document.getElementById('id_z_in').style.display = 'none';
+                document.getElementById('id_wgs_in').label.style.display = 'none';
+                document.getElementById('id_wgs_in').style.display = 'none';
+            }
+            if (selValue == selValue.match(/43.*/)) {
+                document.getElementById('id_x_in').label.innerHTML = "B (deg)";
+                document.getElementById('id_y_in').label.innerHTML = "L (deg)";
+                document.getElementById('id_z_in').label.innerHTML = "H_ell (m)";
+                document.getElementById('id_z_in').label.style.display = 'inline';
+                document.getElementById('id_z_in').style.display = 'inline';
+                document.getElementById('id_wgs_in').label.style.display = 'inline';
+                document.getElementById('id_wgs_in').style.display = 'inline';
+            }
+
+            if (selValue == selValue.match(/49.*/)) {
+                document.getElementById('id_x_in').label.innerHTML = "X (m)";
+                document.getElementById('id_y_in').label.innerHTML = "Y (m)";
+                document.getElementById('id_z_in').label.innerHTML = "Z (m)";
+                document.getElementById('id_z_in').label.style.display = 'inline';
+                document.getElementById('id_z_in').style.display = 'inline';
+                document.getElementById('id_wgs_in').label.style.display = 'none';
+                document.getElementById('id_wgs_in').style.display = 'none';
+            }
+            if (selValue == selValue.match(/1.*/)) {
+                document.getElementById('id_x_in').label.innerHTML = "x (m)";
+                document.getElementById('id_y_in').label.innerHTML = "y (m)";
+                document.getElementById('id_z_in').label.style.display = 'none';
+                document.getElementById('id_z_in').style.display = 'none';
+                document.getElementById('id_wgs_in').label.style.display = 'none';
+                document.getElementById('id_wgs_in').style.display = 'none';
+            }
+        }
+        //Setting Value
+        // garalt
+        function sysout() {
+            var labels = document.getElementsByTagName('LABEL');
+            for (var i = 0; i < labels.length; i++) {
+                if (labels[i].htmlFor != '') {
+                    var elem = document.getElementById(labels[i].htmlFor);
+                    if (elem)
+                        elem.label = labels[i];
+                }
+            }
+            var selObj = document.getElementById("id_sys_out");
+            var selValue = selObj.options[selObj.selectedIndex].value;
+            if (selValue == selValue.match(/3.*/)) {
+                document.getElementById('id_x_out').label.innerHTML = "x (m)";
+                document.getElementById('id_y_out').label.innerHTML = "y (m)";
+                //            document.getElementById("X_in").innerHTML = selValue;
+                document.getElementById('id_z_out').label.style.display = 'none';
+                document.getElementById('id_z_out').style.display = 'none';
+                document.getElementById('id_wgs_out').label.style.display = 'none';
+                document.getElementById('id_wgs_out').style.display = 'none';
+            }
+            if (selValue == selValue.match(/43.*/)) {
+                document.getElementById('id_x_out').label.innerHTML = "B (deg)";
+                document.getElementById('id_y_out').label.innerHTML = "L (deg)";
+                document.getElementById('id_z_out').label.innerHTML = "H_ell (m)";
+                document.getElementById('id_z_out').label.style.display = 'inline';
+                document.getElementById('id_z_out').style.display = 'inline';
+                document.getElementById('id_wgs_out').label.style.display = 'inline';
+                document.getElementById('id_wgs_out').style.display = 'inline';
+            }
+
+            if (selValue == selValue.match(/49.*/)) {
+                document.getElementById('id_x_out').label.innerHTML = "X (m)";
+                document.getElementById('id_y_out').label.innerHTML = "Y (m)";
+                document.getElementById('id_z_out').label.innerHTML = "Z (m)";
+                document.getElementById('id_z_out').label.style.display = 'inline';
+                document.getElementById('id_z_out').style.display = 'inline';
+                document.getElementById('id_wgs_out').label.style.display = 'none';
+                document.getElementById('id_wgs_out').style.display = 'none';
+            }
+            if (selValue == selValue.match(/1.*/)) {
+                document.getElementById('id_x_out').label.innerHTML = "x (m)";
+                document.getElementById('id_y_out').label.innerHTML = "y (m)";
+                document.getElementById('id_z_out').label.style.display = 'none';
+                document.getElementById('id_z_out').style.display = 'none';
+                document.getElementById('id_wgs_out').label.style.display = 'none';
+                document.getElementById('id_wgs_out').style.display = 'none';
+            }
+        }
+    </script>
+</form>
+
+{% endblock %}

@@ -1,0 +1,5 @@
+update_insert:
+O-N298: 
+"REC # / TYPE / VERS" : { 1:"CHAMPION PRO"}
+"ANT # / TYPE" : {1:"ACCG3ANT_52AT1", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.28", 1:"0", 2:"0" }

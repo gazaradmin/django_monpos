@@ -1,0 +1,253 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<div class="row">
+<h1 style="font-weight: bold;font-size:18px;text-align: center;">Газар зохион байгуулалт, геодези, зурагзүйн газрын сүлжээнд холбогдсон GNSS-ийн байнгын ажиллагаатай станц (CORS)-ын мэдээлэл</h1>
+</div>
+<div class="row">
+    <div class="card">
+        <div class="card-header" id="headingTwo">
+          <h5 class="mb-0">
+            <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+              Энэ оны байдраар улсын хэмжээнд {{all_sites}} станц {{ doy }} өдрийн сүлжээний хэмжилт хийхээс: (Дэлгэрэнгүй харах)
+            </button>
+          </h5>
+        </div>
+        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+          <div class="card-body">
+              <table>
+                  <tr style="font-weight: bold;">
+                      <th style="font-weight: bold;font-size:14px;">№</th>
+                      <th style="font-weight: bold;font-size:14px;">CORS</th>
+                      <th style="font-weight: bold;font-size:14px;">Ажилласан өдөр</th>
+                      <th style="font-weight: bold;font-size:14px;">Ашиглалт</th>
+                      <th style="font-weight: bold;font-size:14px;">Хариуцагч байгууллага</th>
+                    </tr>
+                  {% for site, count,per,hariuts in rinex %}
+                  <tr>
+                      <td style="font-weight: normal;font-size:12px;">{{ forloop.counter }}.</td>
+                      <td style="color:red;font-size:12px;">{{ site }}</td>
+                      <td style="color:red;font-size:12px;">{{ count }}</td>
+                      <td style="color:red;font-size:12px;">{{ per }}%</td>
+                      <td style="color:red;font-size:12px;">{{ hariuts }}</td>
+                      {% endfor %}
+                  </tr>
+                  </table>   
+          </div>
+        </div>
+      </div>
+  <div class="accordion" id="accordionExample">
+    <div class="card">
+      <div class="card-header" id="headingOne">
+        <h5 class="mb-0">
+          <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Бодит агшны засвар (RTK) дамжуулж байгаа-({{cur}})
+          </button>
+        </h5>
+      </div>
+      <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+        <div class="card-body">
+
+            <table>
+                <tr style="color: blue;">
+                    <td >
+                        {% for site in active_sites %}
+                        <a href="ftp://monpos.gazar.gov.mn/">{{ site }},</a>
+                        {% endfor %}
+                    </td>  
+                <tr>
+                </table>
+              <a style="color: red;">Холболт тасарсан:{{tas}}</a>
+              <table>
+              <tr style="font-weight: bold;">
+                  <th style="font-weight: bold;font-size:14px;">№</th>
+                  <th style="font-weight: bold;font-size:14px;">CORS</th>
+                  <th style="font-weight: bold;font-size:14px;">Хэзээ тасарсан</th>
+                  <th style="font-weight: bold;font-size:14px;">Хариуцагч байгууллага</th>
+                  <th style="font-weight: bold;font-size:14px;">Хариуцагч мэргэжилтэн</th>
+                  <th style="font-weight: bold;font-size:14px;">Утас</th>
+                </tr>
+              {% for row in deactive_contact %}
+              <tr>
+                  <td style="font-weight: normal;font-size:12px;">{{ forloop.counter }}.</td>
+                  <td style="color:red;font-size:12px;">{{ row.site }}</td>
+                  <td style="color:red;font-size:12px;">{{ row.ognoo }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.baiguullaga }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.hunii_ner }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.utas }}</td>
+              </tr>
+              {% endfor %}
+              </table>    
+
+<a style="color: orange;">Засвартай:{{zas}}</a>
+			  
+              <table>
+              <tr style="font-weight: bold;">
+                  <th style="font-weight: bold;font-size:14px;">№</th>
+                  <th style="font-weight: bold;font-size:14px;">CORS</th>
+                  <th style="font-weight: bold;font-size:14px;">Хэзээ тасарсан</th>
+                  <th style="font-weight: bold;font-size:14px;">Хариуцагч байгууллага</th>
+                  <th style="font-weight: bold;font-size:14px;">Хариуцагч мэргэжилтэн</th>
+                  <th style="font-weight: bold;font-size:14px;">Утас</th>
+                </tr>
+              {% for row in zaswar_contact %}
+              <tr>
+                  <td style="font-weight: normal;font-size:12px;">{{ forloop.counter }}.</td>
+                  <td style="color:orange;font-size:12px;">{{ row.site }}</td>
+                  <td style="color:orange;font-size:12px;">{{ row.ognoo }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.baiguullaga }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.hunii_ner }}</td>
+                  <td style="font-weight: normal;font-size:12px;">{{ row.utas }}</td>
+              </tr>
+              {% endfor %}
+              </table>    			  
+        </div>
+      </div>
+    </div>
+         
+  
+  </div>
+{% endblock %}
+
+{% block leaflet %}
+<a style="font-weight: bold;font-size:14px;text-align: center;"> Одоо холболт тасарсан {{tas}} CORS-ийн байрлал, дээр нь дарж холбогдох мэдээллийг авна уу. </a>
+
+<div id = "map" style="width: 100%; height: 500px; position: relative; outline: none;" ></div>   
+
+<script>
+  var active_coord = {{ active_coord| safe }}
+  var active_sites = {{ active_sites| safe }}
+  var zaswar_coord = {{ zaswar_coord| safe }}
+  var zaswar_contact = {{ zaswar_contact| safe }}
+  var deactive_contact = {{ deactive_contact| safe}}
+  var deactive_coord = {{ deactive_coord| safe }}
+  var deactiveOptions = {
+    radius: 8,
+    fillColor: "red",
+    color: "#000",
+    weight: 0.5,
+    opacity: 1,
+    fillOpacity: 1
+  };
+  var activeOptions = {
+    radius: 8,
+    fillColor: "blue",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 1
+  };
+
+  var zaswarOptions = {
+    radius: 8,
+    fillColor: "orange",
+    color: "#000",
+    weight: 1,
+    opacity: 1,
+    fillOpacity: 1
+  };
+
+
+  var blueIcon = L.icon({
+    iconUrl: '{{ MEDIA }}/staic/images/blue-marker.svg',
+    iconSize: [50, 95], // size of the ico
+    iconAnchor: [25, 72], // point of the icon which will correspond to marker's location
+    popupAnchor: [-3, -6] // point from which the popup should open relative to the iconAnchor
+  });
+
+  var redIcon = L.icon({
+    iconUrl: '{{ MEDIA }}/static/images/red-marker.svg',
+    iconSize: [50, 95], // size of the ico
+    iconAnchor: [25, 72], // point of the icon which will correspond to marker's location
+    popupAnchor: [-3, -6] // point from which the popup should open relative to the iconAnchor
+  });
+
+var OpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }),
+ESRI = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' });
+Surface = L.tileLayer('https://geoportal.nsdi.gov.mn/alagac/rest/services/Database/CivilTopo_V4/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' })
+
+
+
+var baseMaps = {
+"OSM": OpenStreetMap,
+"Ортофото зураг": ESRI,
+"Гадаргын зураг": Surface,
+};
+//	<!--  layer controll heseg -->
+var map = L.map('map', {
+center: [48, 106.5],
+zoom: 5,
+layers: OpenStreetMap
+});
+L.control.layers(baseMaps).addTo(map);
+
+
+var activeOptions = {
+  radius: 8,
+  fillColor: "blue",
+  color: "#000",
+  weight: 1,
+  opacity: 1,
+  fillOpacity: 1
+};
+
+
+  for (var i = 0; i < deactive_coord.length; i++) {
+    marker = new L.circleMarker(deactive_coord[i], deactiveOptions).addTo(map);
+    var list = deactive_contact[i].site + ": Доголдсон<dt>Холбоо барих:</dt>" + deactive_contact[i].utas
+    marker = new L.marker(deactive_coord[i], { icon: redIcon }).addTo(map);
+    marker.bindPopup(list).closeTooltip();
+    marker.bindTooltip(deactive_contact[i].site, { permanent: true, direction: 'top', offset: [10, -22] });
+  }
+
+  
+
+
+  for (var i = 0; i < active_coord.length; i++) {
+    // marker = new L.marker(active_cors[i],{icon: blueIcon}).addTo(map);
+    marker = new L.circleMarker(active_coord[i], activeOptions).addTo(map);
+    var list = active_sites[i] + ": Хэвийн"
+    marker.bindPopup(list).closeTooltip();
+  }
+  
+  for (var i = 0; i < zaswar_coord.length; i++) {
+    marker = new L.circleMarker(zaswar_coord[i], zaswarOptions).addTo(map);  
+    var list = zaswar_contact[i].site + ": Засвартай"
+    marker = new L.marker(zaswar_coord[i], { icon: redIcon }).addTo(map);
+    marker.bindPopup(list).closeTooltip();
+    marker.bindTooltip(zaswar_contact[i].site, { permanent: true, direction: 'top', offset: [10, -22] });
+
+  }
+  let Position = L.Control.extend({
+    _container: null, options: { position: 'bottomright' },
+
+    onAdd: function (map) {
+      var latlng = L.DomUtil.create('div', 'mouseposition');
+      latlng.style.backgroundColor = 'white';
+      this._latlng = latlng; return latlng;
+    },
+    updateHTML: function (lat, lng) {
+      var latlng = lat + " " + lng;
+      //this._latlng.innerHTML = "Latitude: " + lat + "   Longitiude: " + lng;
+      this._latlng.innerHTML = "Солбицол (WGS84): B= " + lat + " L= " + lng;
+    }
+  });
+  this.position = new Position();
+  this.map.addControl(this.position);
+  this.map.addEventListener('mousemove', (event) => {
+    let lat = Math.round(event.latlng.lat * 1000) / 1000;
+    let lng = Math.round(event.latlng.lng * 1000) / 1000;
+    this.position.updateHTML(lat, lng);
+  }
+  );
+	L.control.scale().addTo(map);
+		L.control.ruler().addTo(map);
+
+
+</script>
+
+  
+{% endblock %}
+
+
+ 

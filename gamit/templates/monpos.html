@@ -1,0 +1,296 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block body1 %}
+
+<form method="post"  enctype="multipart/form-data">
+	{% csrf_token %}
+		<div class="panel">
+		   <div class="panel-body">
+			  <div class="row row-lg">
+				<div class="col-md-12">
+				  <!-- Example Basic Form (Form grid) -->
+				  <div class="example-wrap">
+					<div class="example">
+  
+						<div class="row">
+						  <div class="form-group col-md-2">
+							<label class="form-control-label" for="select">RINEX файлын тоо:</label>
+						  </div>
+						  <div class="form-group col-md-2">
+									  <select class="form-control" id="select" name="select">									
+										  <option value="0">1</option>
+										  <option value="1">2</option>
+										  <option value="2">3</option>
+										  <option value="3">4</option>
+										  <option value="4">5</option>
+										  <option value="5">6</option>
+										  <option value="6">7</option>
+										  <option value="7">8</option>
+										  <option value="8">9</option>
+										  <option value="9">10</option>
+										  <option value="10">11</option>
+										  <option value="11">12</option>
+									  </select>
+  
+						  </div>
+						  <div class="form-group col-md-2">
+							<label class="form-control-label" for="suljee">Тулгуур CORS-г сонгох:</label>
+						  </div>
+						  <div class="form-group col-md-3">
+								<select class="form-control" id="suljee" name="suljee">
+								  <option value="0">IGS-ийн CORS</option>
+								  <option value="1">Дотоодын CORS</option>
+							  </select>
+						  </div>
+						</div>
+						<hr>
+  
+					</div>
+				  </div>
+  
+				</div>
+  
+				</div>
+			  <div class="row row-lg">
+				 <div class="col-md-12">
+				  <!-- Example Basic Form (Form grid) -->
+					  <div class="example-wrap">
+						<div class="example">
+				<div class="row">
+				  <div class="form-group col-md-3">
+					<label class="form-control-label">RINEX файл</label>
+				  </div>
+				  <div class="form-group col-md-3">
+					<label class="form-control-label">Багажны өндөр /метр/</label>
+				  </div>
+				  <div class="form-group col-md-3">
+					<label class="form-control-label">Хүлээн авагчийн төрөл</label>
+				  </div>
+				  <div class="form-group col-md-3">
+					<label class="form-control-label">GNSS -ийн антены төрөл</label>
+				  </div>
+				</div>
+						</div>
+					  </div>
+				  </div>  
+			  </div>
+			  
+			  <div class="row row-lg">
+				 <div class="col-md-12">
+				  <!-- Example Basic Form (Form grid) -->
+						  <div id="davtah">
+  
+						  <div class="row">
+							  <div class="form-group col-md-3">
+				  <input type="file" id="myfile" name="myfile[]" multiple/>
+							  </div>
+							  <div class="form-group col-md-3">
+				  <input type="text" class="form-control" name="height[]" placeholder="Багажны өндөр, (м)" autocomplete="off">
+							  </div>
+							  <div class="form-group col-md-3">
+				  <select class="form-control" id="receiver" name="receiver[]">
+					<!-- <option value="0">Хүлээн авагчийн төрлийг сонгоно уу</option> -->
+					{% for rec in rec %}
+					<option value="{{ rec }}">{{ rec }}</option>
+					{% endfor %}
+				  </select>
+							  </div>
+							  <div class="form-group col-md-3">          
+				  <select class="form-control" id="antenna" name="antenna[]">
+					<!-- <option value="0">Антены төрлийг сонгоно уу</option> -->
+					{% for ant in ant %}
+					<option value="{{ ant }}">{{ ant }}</option>
+					{% endfor %}
+				  </select>
+							  </div>
+						  </div>
+			  </div>
+			  <!-- holder dr buten odor erguutew. -->
+						  <div id="holder">
+						  </div>
+			  </div>
+						  </div>	
+			  <hr>
+		   <div class="row row-lg">
+		  <div class="col-md-12">
+			<div class="example-wrap">
+			  <div class="example">
+				<div class="row">
+				  <div class="form-group col-md-3">
+					<input type="text" name="mail" class="form-control" placeholder="e-mail хаяг">
+				  </div>
+				  <div class="form-group col-md-5">
+					Нэмэлт системийг сонгоно уу :
+					<label><input type="checkbox" name="gnss" id="Glonass" value="2">Glonass</label>
+					<label><input type="checkbox" name="gnss" id="Galileo" value="3">Galileo</label>
+					<label><input type="checkbox" name="gnss" id="Beidou" value="4">Beidou</label>
+					</div>
+				  <div class="form-group col-md-3">
+				  <button id="myBtn" type="submit" value="upload" />Хуулах</button>
+				  <br>
+		  
+				  {% if messages %}
+				  <p style="background-color:white; color: red;">{{ messages }}</p>
+				  {% endif %}
+				</div>
+			  </div>
+			<div class="panel-body">
+			  <div class="example-wrap">
+				<h4 class="example-title">Таны GNSS-ийн өгөгдөл нь:<br></h4>
+				<div class="example">
+				  <ul>
+					1. Статик горимд хэмжигдсэн байх<br>
+					2. Хамгийн багадаа 2 ба түүнээс дээш цагийн өгөгдөл байх<br>
+					3. Геодезийн сүлжээний шаардлага хангасан хос долгионы хүлээн авагчаар хэмжсэн байх<br>
+					4. RINEX форматаар байх<br>
+					5. IGS-ийн файл дугаарлалтын стандартад заасны дагуу нэрлэгдсэн байх<br>
+					XXXXDDDS.YYo<br>
+					- XXXX – Хэмжсэн цэгийн нэр<br>
+					- DDD-Жилийн өдөр (GPS-ийн өдөр, 001-365)<br>
+					- S-хэмжсэн хугацааны урт (0-9, а-Z)<br>
+					- YY-хэмжилт хийсэн оны сүүлийн 2 орон (2018 үед 18 )Жишээ нь: gunt2170.18o<br>
+				  </ul>
+	
+				</div>
+			  </div>
+			</div>
+		  </div>
+		  </div>
+		  </div>
+		  </div>
+		  </div>
+		  </div>
+		  <div class="panel">
+  
+			<div class="panel-body">
+			  <div class="example-wrap">
+				<h4 class="example-title">CORS-ын байрлалын мониторинг (<a href="{% url 'monrtk' %}"> Статик өгөгдөл, RTK засварын талаар эндээс</a>):<br></h4>
+				<div class="example">
+				  <div class="row">
+					  <div class="col-md-3">
+						  <div class="form-group">
+						  <label>CORS</label>
+						  <select class="form-control" id="site" name="site">
+							  <option value="xxxx">----</option>
+							  {% for site in site %}
+							  <option value="{{ site }}">{{ site }}</option>
+							  {% endfor %}
+						  </select>
+						  </div>
+						  </div>
+						  <div class="col-md-3">
+						  <div class="form-group">
+						  <label>Он</label>
+						  <select class="form-control" id="jil" name="jil">
+							  <option value="xxxx">----</option>
+							  {% for year in year %}
+							  <option value="{{ year }}">{{ year }}</option>
+							  {% endfor %}
+							  <option value="0000">бүх жилээр</option>
+						  </select>
+						  </div>
+				  </div>
+				  </div>
+				  </div>
+				  <div class="row">
+					  <div class="container">
+					  <div class="chart" id="line-chart" name="line-chart" style="height: 300px;"></div>
+					  </br>
+				  </br>
+			  </br>
+		  </br>
+					  </div>
+				  </div>
+				</div>
+	   
+  
+			  </div>
+			</div>
+	
+  </form>   
+  
+  
+  
+  <script>
+	  $(document).ready(function() {
+		  $('select[name="site"]').on('change', function() {
+			  var e = document.getElementById("jil");
+			  var jil = e.options[e.selectedIndex].value;
+			  if(jil=="0")
+			  fillFullData();
+			  else
+			  fillData();	
+		  });
+		  $('select[name="jil"]').on('change', function() {
+			  var e = document.getElementById("jil");
+			  var jil = e.options[e.selectedIndex].value;
+			  if(jil=="0")
+			  fillFullData();
+			  else
+			  fillData();	
+		  })
+	  
+	  });
+	  function fillData(){
+			  var e = document.getElementById("site");
+			  var site = e.options[e.selectedIndex].text;
+			  var e = document.getElementById("jil");
+			  var jil = e.options[e.selectedIndex].value;		
+			  if(site) {
+				  $.ajax({
+					 url: 'loadmonitor/'+site +'&'+ jil,
+					  type: "GET",
+					  dataType: "json",	
+					  success:function(data) {	
+						  var count = Object.keys(data).length;
+						  if(count > 0){
+						  document.getElementById("line-chart").innerHTML = "";
+						  $(function() {
+							  "use strict";
+							  var line = Morris.Line({
+							  parseTime: false,
+							  element: 'line-chart',
+							  fillOpacity: 0.2,
+							  resize: true,
+							  data: data,
+							  lineColors: ['#00a65a', '#f56954', '#1a1aff'],
+							  xkey: 'ognoo',
+							  ykeys: ['dx', 'dy', 'dz'],
+							  labels: ['dх(m)', 'dy(m)', 'dz(m)'],
+							  hideHover: 'auto'
+						  });
+						  });
+						  }
+						  else{
+							  document.getElementById("line-chart").innerHTML = "Таны сонгосон CORS - ийн өгөгдөл байхгүй байна.";
+						  }
+  
+					  }
+				  
+				  });
+			  }else{
+				  document.getElementById("line-chart").innerHTML = "";
+			  }
+	  }
+  </script>
+	  <script type="text/javascript">
+		  $(document).ready(function() {
+			  $.fn.duplicate = function(count, cloneEvents) {
+				var tmp = [];
+				for (var i = 0; i < count; i++) {
+					$.merge(tmp, this.clone(cloneEvents).get());
+				}
+				return this.pushStack(tmp);
+			  };
+  
+			  //SELECT CHANGE FUNCTION (on change get value and clone)
+			  $('#select').change(function(){  // on change...
+				var selectBox = document.getElementById('select');
+				var numOfClones = selectBox.options[selectBox.selectedIndex].value;
+				  $('#holder').html('');              // empty holder if there are some old clones
+				  $('#davtah').duplicate(numOfClones).addClass('new').appendTo('#holder'); // duplicate; fill holder with new clones; the class 'new' is just for styling
+			  });
+		  });
+	  </script>
+  
+{% endblock %}

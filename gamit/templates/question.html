@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<form method="post" action="" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="row">
+    <div class="col-lg-5">
+  {{ form.as_p }}
+
+
+      <button class="btn btn-primary btn-lg btn-block" type="submit">Илгээх</button><br>
+  </div>
+</div>
+</form>
+<div class="accordion" id="accordionExample">
+  <div class="card">
+    <div class="card-header" id="headingOne">
+      <h5 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+           Хэрэглэгчийн асуултууд:
+        </button>
+      </h5>
+    </div>
+    <div id="collapseOne" class="collapse show" aria-labelledby="collapseOne" data-parent="#accordionExample">
+      <div class="card-body">
+  {% for question in allquestions %}
+  <dt> {{ question.asuult }} / {{ question.userip}}, {{question.created| date:"SHORT_DATE_FORMAT"}} /</dt>
+         <dd>Хариулт: </dd> 
+          <dd> {% for answer in question.answer_set.all %}
+
+            <dd> {{ forloop.counter }} {{ answer }} /{{answer.userip}}, {{answer.created| date:"M d, Y" }}/</dd>             
+            {% endfor %}  
+            <form method="post" action="" enctype="multipart/form-data">
+              {% csrf_token %}
+              <div class="col-lg-5"> 
+                {{ form_ans.as_p }}
+              </div>
+              <div class="col-lg-3"> 
+                <input type="hidden" id="asuult_id" name="asuult_id" value="{{ question.id }}">  
+                <button class="btn btn-primary  btn-sm" type="submit">Хариулах</button>
+            </div>
+          </form>
+          {% if user.is_authenticated %}
+          {% if request.user.is_staff %}
+          <form action="{% url 'delete_question' question.id %}" method="post">
+            {% csrf_token %}
+            <button class="btn btn-primary btn-sm" type="submit">Устгах</button><br>             
+        </form>
+          {% endif %}
+        {% endif %}
+         </dd>
+
+    {% endfor %}
+  </div>
+</div>
+  </div>
+      </div>
+      {% endblock %}
+
+
+
+ 

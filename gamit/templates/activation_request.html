@@ -1,0 +1,22 @@
+{% autoescape off %}
+Сайн байна уу <h4>{{ user.username }},<h4>
+
+<div class="container"  style="width: 30rem;">
+	
+   <div class="card" style="width: 30rem;">
+      <div class="container"  style="width: 30rem;">
+              <form method="post" name="form">	{% csrf_token %}
+            <div class="card-body">
+                     
+                    </div>
+                  <a class="text-left">Monpos үйлчилгээнд тавтай морил.</a>
+                  Та дараах холбоосоор хэрэглэгчийн эрхээ идэвхижүүлнэ үү. <br>
+                  <a style="color: #ec2c0b;" href="http://{{ domain }}{% url 'activate' uidb64=uid token=token %}">Баталгаажуулах</a>
+  
+  </div>
+</div>
+</div>
+
+
+
+{% endautoescape %}

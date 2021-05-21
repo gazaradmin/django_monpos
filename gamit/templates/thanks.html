@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<div class="jumbotron text-center">
+    <h1 class="display-3">Баярлалаа.</h1>
+    <p class="lead"><strong>Таны илгээсэн хүсэлтийг</strong> холбогдох мэргэжилтнүүд хянаж, хариу мэдэгдэх болно.</p>
+    <hr>
+    <p>
+      Яаралтай тусламж шаардлагатай юу? <a href="https://www.gazar.gov.mn">Бидэнтэй холбогдоно уу.</a>
+    </p>
+    <p class="lead">
+      <a class="btn btn-primary btn-sm" href="{%url system|lower %}" role="button" >Буцах</a>
+    </p>
+  </div>
+  {% endblock %}

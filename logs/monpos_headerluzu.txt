@@ -1,0 +1,5 @@
+update_insert:
+O-0001: 
+"REC # / TYPE / VERS" : { 1:"KOLIDA K58PLUS"}
+"ANT # / TYPE" : {1:"KOLK5PLUS2018", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.5735", 1:"0", 2:"0" }

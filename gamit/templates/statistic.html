@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+{% if user.is_authenticated %}
+<h3>Татагдсан файлын мэдээлэл:</h3>
+<table class="table table-hover table-bordered">
+  <tr style = "font-family:Arial, Helvetica, sans-serif;font-size:20px; font-weight: bold;">
+    <th style = "font-family:Arial, Helvetica, sans-serif;font-size:20px; font-weight: bold;">Хэрэглэгч</th>
+    <th style = "font-family:Arial, Helvetica, sans-serif;font-size:20px; font-weight: bold;">Файл</th>
+    <th style = "font-family:Arial, Helvetica, sans-serif;font-size:20px; font-weight: bold;">Татагдсан огноо</th>
+</tr>
+  {% for sta in stat %}
+  <tr style = "font-family:Arial, Helvetica, sans-serif;font-size:14px;">
+    <td>{{sta.user}} </td>
+    <td>{{sta.file}}</td>
+    <td>{{sta.created}}</td>
+  </tr>
+  {% endfor %}
+  <tr style = "font-family:Arial, Helvetica, sans-serif;font-size:16px; font-weight: bold;">
+    <td>Нийт:</td>
+    <td> {{ stat.count }}</td>
+    <td></td>
+ </tr>
+  {% endif %}
+  {% endblock %}

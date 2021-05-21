@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+<link rel="stylesheet" href="/resources/demos/style.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
+
+{% for lfile in page_obj %}
+{% if forloop.first %}
+<div class="row justify-content-md-center">
+  {% endif %}
+  <div class="col-md-6 border">
+    {% for site_hardware in lfile.site_hardware_set.all %}
+    <h4>CORS: {{ lfile.site|upper }}</h4>
+
+    <p><strong>Receiver:</strong>{{ site_hardware.Receiver }} <strong> Antenna:</strong> {{ site_hardware.Antenna }} {{ site_hardware.Antenna_Radome }}  <strong> Системүүд:</strong>{{ site_hardware.Constellation }} </p> <!-- author detail link not yet defined -->
+    <p><strong>log файл:</strong><a href="{{ site_hardware.Station_Log.url }}">харах</a> </p>
+    <p><strong>Орчны зургууд:</strong></p>
+    <div class="image-container">
+      <img src="{{ site_hardware.left.url }}" class="rounded" alt="img" width="180" , height="200">
+      <img src="{{ site_hardware.right.url }}" class="rounded" alt="img" width="180" , height="200">
+      <img src="{{ site_hardware.south.url }}" class="rounded" alt="img" width="180" , height="200">
+      <img src="{{ site_hardware.north.url }}" class="rounded" alt="img" width="180" , height="200">
+    </div>
+    <div class="image-container">
+     
+    </div>
+    <p><strong>RINEX өгөгдөл татах:</strong></p>
+    <div class="form-group">
+      <!-- Submit button -->
+      <form method="post" action="{% url 'download' name=site_hardware.fid %}">
+        {% csrf_token %}
+        <p>Огноо сонгох: <input type="date" id="datepicker" name="datepicker">
+        <button class="btn btn-primary  btn-sm " name="submit" type="submit">Татах</button></p>
+      </form>
+    </div>
+    {% endfor %}
+  </div>
+  {% if forloop.counter|divisibleby:2 %}
+</div>
+<div class="row justify-content-md-center">
+  {% endif %}
+
+  {% if forloop.last %}
+</div>
+{% endif %}
+{% endfor %}
+
+        <ul>
+          <a>хуудас:</a>
+        {% for pg in page_range %}
+             <a href="?page={{pg}}" class="btn btn-default">{{pg}}</a>
+        {% endfor %}
+        </ul>
+
+
+{% endblock %}

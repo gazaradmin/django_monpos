@@ -1,0 +1,238 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+<form method="post" action="" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+
+
+    <div class="col-lg-5">
+    <div class="row justify-content-md-center">
+        <div class="col-lg-6">
+            <div class="col-lg-6">Утга оруулах
+            {% if messages %}
+                {% for message in messages %}
+                    alert(message);
+                {% endfor %}
+            {% endif %}
+            </div>
+            <div class="form-group">
+                        <label id="sys_in_lbl">{{ form.sys_in.label }}</label><br>
+                        <select id="id_sys_in" name="id_sys_in" onchange="sysin()">
+                            {% for x,y in form.fields.sys_in.choices %}
+                            <option value="{{ x }}">{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                         
+            <div class="form-group">
+                <label id="X_in">B(deg)</label><br>
+                {{ form.x_in }}
+            </div>
+            <div class="form-group">
+                <label id="Y_in">L(deg)</label><br>
+                {{ form.y_in }}
+            </div>
+            <div class="form-group">
+                <label id="Z_in">H_ell (m)</label><br>
+                {{ form.z_in }}
+            </div>
+            <div class="form-group">
+                <label id="wgs_in_format" class="labeltext">формат</label><br>
+                <select name="id_in_dms" id="id_in_dms" class="form-control">
+                    <option value="dms">dms</option>
+                    <option value="ddd">ddd</option>
+                </select>
+                <br>
+            </div> 
+         
+               
+        </div>
+        <!-- Garaltiin heseg -->
+
+        <div class="col-lg-6">
+            <div class="col-lg-6">ГАРАЛТ</div>
+            <div class="form-group">
+                        <label id="{{  form.sys_out.label }}">{{ form.sys_out.label }}</label><br>
+                        <select id="id_sys_out" name="id_sys_out" onchange="sysout()">
+                            {% for x,y in form.fields.sys_out.choices %}
+                            <option value="{{ x }}">{{ y }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+               
+             
+            <div class="form-group">
+                <label id="X_out">B(deg)</label><br>
+                {{ form.x_out}}
+            </div>
+            <div class="form-group">
+                <label id="Y_out">L(deg)</label><br>
+                {{ form.y_out}}
+            </div>
+            <div class="form-group">
+                <label id="Z_out">H_ell (m)</label><br>
+                {{ form.z_out}}
+                
+            </div>
+            <div class="row">
+                <div class="col">
+                    <label id="wgs_out_format">формат</label><br>
+                    <select name="id_out_dms" id="id_out_dms" class="form-control">
+                        <option value="dms">dms</option>
+                        <option value="ddd">ddd</option>
+                    </select>
+                </div>
+                <div class="col">
+                <label id="decimal_lbl" >Орон(.?)</label><br>
+                <select id="decimal_format" name="decimal_format" class="form-control">
+                    {% for i in '0123'|make_list %}
+                    <option value={{i}}>{{i}}</option>
+                    {% endfor %}
+                </select>
+            </div>  
+            </div>
+           
+        </div>
+</div>
+</div>
+    </div>
+    <div class="row">
+        <div class="col-lg-5">
+        
+    <button class="btn btn-primary btn-lg btn-block"  type="submit">Хөрвүүлэх</button><br>
+</div>
+</div>
+        <div id = "map" style="width: 100%; height: 500px; position: relative; outline: none; " >
+        </div>
+        <script>
+            var OpenStreetMap = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors' }),
+            ESRI = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' });
+            Surface = L.tileLayer('https://geoportal.nsdi.gov.mn/alagac/rest/services/Database/CivilTopo_V4/MapServer/tile/{z}/{y}/{x}', { attribution: '&copy; <a href="https://www.nsdi.gov.mn/copyright">Ортофото</a> contributors' })
+            
+            
+            
+            var baseMaps = {
+            "OSM": OpenStreetMap,
+            "Ортофото зураг": ESRI,
+            "Гадаргын зураг": Surface,
+            };
+            //	<!--  layer controll heseg -->
+            var map = L.map('map', {
+            center: [48, 106.5],
+            zoom: 5,
+            layers: ESRI
+            });
+            L.control.layers(baseMaps).addTo(map);
+            var x_map = '{{ x_map }}';
+            var y_map = '{{ y_map }}';
+            L.marker([x_map,y_map]).addTo(map);
+        </script>
+
+    <script>
+        function sysin() {
+            var selObj = document.getElementById("id_sys_in");
+            var selValue = selObj.options[selObj.selectedIndex].value;
+            if (selValue == selValue.match(/3.*/)) {
+                var input = document.getElementById("X_in");
+                input.innerHTML = "x (m)";
+                var input = document.getElementById("Y_in");
+                input.innerHTML = "y (m)";
+                //            document.getElementById("X_in").innerHTML = selValue;
+                document.getElementById('Z_in').style.display = 'none';
+                document.getElementById('id_z_in').style.display = 'none';
+                document.getElementById('wgs_in_format').style.display = 'none';
+                document.getElementById('id_in_dms').style.display = 'none';
+            }
+            if (selValue == selValue.match(/43.*/)) {
+                var input = document.getElementById("X_in");
+                input.innerHTML = "B (deg)";
+                var input = document.getElementById("Y_in");
+                input.innerHTML = "L (deg)";
+                var input = document.getElementById("Z_in");
+                input.innerHTML = "H_ell (m)";
+                document.getElementById('Z_in').style.display = 'inline';
+                document.getElementById('id_z_in').style.display = 'inline';
+                document.getElementById('wgs_in_format').style.display = 'inline';
+                document.getElementById('id_in_dms').style.display = 'inline';
+            }
+
+            if (selValue == selValue.match(/49.*/)) {
+                var input = document.getElementById("X_in");
+                input.innerHTML = "X (m)";
+                var input = document.getElementById("Y_in");
+                input.innerHTML = "Y (m)";
+                var input = document.getElementById("Z_in");
+                input.innerHTML = "Z (m)";
+                document.getElementById('Z_in').style.display = 'inline';
+                document.getElementById('id_z_in').style.display = 'inline';
+                document.getElementById('wgs_in_format').style.display = 'none';
+                document.getElementById('id_in_dms').style.display = 'none';
+            }
+            if (selValue == selValue.match(/1.*/)) {
+                var input = document.getElementById("X_in");
+                input.innerHTML = "x (m)";
+                var input = document.getElementById("Y_in");
+                input.innerHTML = "y (m)";
+                document.getElementById('Z_in').style.display = 'none';
+                document.getElementById('id_z_in').style.display = 'none';
+                document.getElementById('wgs_in_format').style.display = 'none';
+                document.getElementById('id_in_dms').style.display = 'none';
+            }
+        }
+        //Setting Value
+        // garalt
+        function sysout() {
+            var selObj = document.getElementById("id_sys_out");
+            var selValue = selObj.options[selObj.selectedIndex].value;
+            if (selValue == selValue.match(/3.*/)) {
+                var input = document.getElementById("X_out");
+                input.innerHTML = "x (m)";
+                var input = document.getElementById("Y_out");
+                input.innerHTML = "y (m)";
+                //            document.getElementById("X_in").innerHTML = selValue;
+                document.getElementById('Z_out').style.display = 'none';
+                document.getElementById('id_z_out').style.display = 'none';
+                document.getElementById('wgs_out_format').style.display = 'none';
+                document.getElementById('id_out_dms').style.display = 'none';
+            }
+            if (selValue == selValue.match(/43.*/)) {
+                var input = document.getElementById("X_out");
+                input.innerHTML = "B (deg)";
+                var input = document.getElementById("Y_out");
+                input.innerHTML = "L (deg)";
+                var input = document.getElementById("Z_out");
+                input.innerHTML = "H_ell (m)";
+                document.getElementById('Z_out').style.display = 'inline';
+                document.getElementById('id_z_out').style.display = 'inline';
+                document.getElementById('wgs_out_format').style.display = 'inline';
+                document.getElementById('id_out_dms').style.display = 'inline';
+            }
+
+            if (selValue == selValue.match(/49.*/)) {
+                var input = document.getElementById("X_out");
+                input.innerHTML = "X (m)";
+                var input = document.getElementById("Y_out");
+                input.innerHTML = "Y (m)";
+                var input = document.getElementById("Z_out");
+                input.innerHTML = "Z (m)";
+                document.getElementById('Z_out').style.display = 'inline';
+                document.getElementById('id_z_out').style.display = 'inline';
+                document.getElementById('wgs_out_format').style.display = 'none';
+                document.getElementById('id_out_dms').style.display = 'none';
+            }
+            if (selValue == selValue.match(/1.*/)) {
+                var input = document.getElementById("X_out");
+                input.innerHTML = "x (m)";
+                var input = document.getElementById("Y_out");
+                input.innerHTML = "y (m)";
+                document.getElementById('Z_out').style.display = 'none';
+                document.getElementById('id_z_out').style.display = 'none';
+                document.getElementById('wgs_out_format').style.display = 'none';
+                document.getElementById('id_out_dms').style.display = 'none';
+            }
+        }
+    </script>
+</form>
+
+{% endblock %}

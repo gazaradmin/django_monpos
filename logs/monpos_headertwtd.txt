@@ -1,0 +1,5 @@
+update_insert:
+O-3283: 
+"REC # / TYPE / VERS" : { 1:"CHC I50"}
+"ANT # / TYPE" : {1:"CHCI50", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"", 1:"0", 2:"0" }

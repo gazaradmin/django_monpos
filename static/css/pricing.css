@@ -1,0 +1,31 @@
+html {
+  font-size: 14px;
+}
+
+.container {
+  max-width: 960px;
+}
+
+.pricing-header {
+  max-width: 700px;
+}
+
+.card-deck .card {
+  min-width: 220px;
+}
+.top-header{
+	width: 100%;
+	margin: 0px auto;
+	height: 110px;
+	background: url(headerbg-gsmaf.png);
+	border-top: solid 1px #145cc7;
+	position: relative;
+}
+body{
+	margin: 0px;
+	padding: 0px;
+	font-family: Arial;
+	background-image: url(background.gif);
+}
+
+

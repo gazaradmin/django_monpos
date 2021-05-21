@@ -1,0 +1,5 @@
+update_insert:
+O-4267: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE R7 GNSS"}
+"ANT # / TYPE" : {1:"TRM55970.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.322", 1:"0", 2:"0" }

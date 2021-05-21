@@ -1,0 +1,536 @@
+{% extends "base.html" %}
+{% load static %}
+{% block body1 %}
+
+<form method="POST" action="mongeocalc_back">
+    {% csrf_token %}
+<div class="row">
+    <div class="col-lg-6">
+    <div class="az-content-label mg-b-5">Утга оруулах</div>
+
+
+    {% if form.errors %}
+    {% for field in form %}
+            
+            {% for error in field.errors %}
+                    <div class="alert alert-danger">
+                    {{field.name}}	<strong>{{ error|escape }}</strong>
+                    </div>
+            {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+            <div class="alert alert-danger">
+                    <strong>{{ error|escape }}</strong>
+            </div>
+    {% endfor %}
+    {% endif %}
+
+    <p class="mg-b-20"></p>
+    <div class="d-flex flex-column wd-md-400 pd-30 pd-sm-40 bg-gray-200">
+        <div class="form-group">
+        <label id="lbl_id_sys_in" class="form-label">Солбицлын систем:<span class="tx-danger">*</span></label>
+        <select id="id_sys_in" name="sys_in" class="form-control select2-no-search" onchange="showPoint()" required>
+
+            <option value="TM">TM</option>
+            <option value="UTM">UTM</option>
+            <option value="WGS84" selected>WGS84</option>
+            <option  value="Cartesian">Cartesian</option>
+        </select>
+        <script>
+                var val = '{{ form.sys_in.value }}';
+                var sel = document.getElementById('id_sys_in');
+
+                var opts = sel.options;
+                    for (var opt, j = 0; opt = opts[j]; j++) {
+                        if (opt.value == val) {
+                            sel.selectedIndex = j;
+
+                            break;
+                        }
+                    }
+        </script>
+        </div>
+        <div class="form-group">
+        <label id="lbl_wgs_in" class="form-label">Өгөгдлийн формат:<span class="tx-danger">*</span></label>
+        <select id="id_wgs_in" name="wgs_in" class="form-control select2-no-search">
+                <option value="DD">Градус (DD)</option>
+                <option value="DDM">Градус минут (DDM)</option>
+                <option value="DMS">Градус минут секунд (DMS)</option>
+        </select>
+        <script>
+            var val = '{{ form.wgs_in.value }}';
+            var sel = document.getElementById('id_wgs_in');
+
+            var opts = sel.options;
+                for (var opt, j = 0; opt = opts[j]; j++) {
+                    if (opt.value == val) {
+                        sel.selectedIndex = j;
+
+                        break;
+                    }
+                }
+        </script>
+        </div>
+        <div id="p_x" class="form-group">
+            <label id="lbl_x_in" class="form-label">Өргөрөг(B): <span class="tx-danger">*</span></label>
+            <input type="text" name="x_in" style="font-size:18px;" class="form-control" placeholder="B" id="id_x_in" value="{{ form.x_in.value|default_if_none:'' }}">
+        </span>
+        </div><!-- form-group -->
+        <div id="p_y" class="form-group">
+            <label id="lbl_y_in" class="form-label">Уртраг (L):<span class="tx-danger">*</span></label>
+            <input type="text" name="y_in" style="font-size:18px;" class="form-control" placeholder="L"  id="id_y_in" value="{{ form.y_in.value|default_if_none:'' }}" >
+        </div><!-- form-group -->
+        <div id="p_z" style="display:none"  class="form-group">
+                <label id="lbl_z_in" class="form-label" style="display:none" >Z<span class="tx-danger">*</span></label>
+                <input type="text" name="z_in" style="font-size:18px;" class="form-control" style="display:none" placeholder="Z" id="id_z_in" value="{{ form.z_in.value|default_if_none:'' }}">		
+        </div><!-- form-group -->
+        <div class="form-group">
+        <label id="lbl_id_zone_in" style="display:none"  class="form-label">Бүс:<span class="tx-danger">*</span></label>
+        <select id="id_zone_in" style="display:none"  name="zone_in" class="form-control select2-no-search">
+
+            <option value="45">45</option>
+            <option value="46">46</option>
+            <option value="47">47</option>
+            <option value="48" selected>48</option>
+            <option value="49">49</option>
+            <option value="50">50</option>
+        </select>
+        <script>
+                var val = '{{ form.zone_in.value }}';
+                var sel = document.getElementById('id_zone_in');
+
+                var opts = sel.options;
+                    for (var opt, j = 0; opt = opts[j]; j++) {
+                        if (opt.value == val) {
+                            sel.selectedIndex = j;
+
+                            break;
+                        }
+                    }
+        </script>
+        </div>
+        <div id="ell_div">
+            <div  class="form-group">
+                    <label class="ckbox">
+                        <input id="ell_h" type="checkbox" onclick="showEll()"><span>H_ell(m)</span>
+                    </label>
+            </div><!-- form-group -->
+            <div id="ell" class="form-group" style="display:none">
+                    <input id="id_ell_height" name="ell_height" type="text" class="form-control" placeholder="H(m)" value="{{ form.ell_height.value|default_if_none:'' }}">
+                    <script>
+                    var val = '{{ form.ell_height.value }}';
+                    if (val!="None")
+                    {
+                        ell.style.display = "block";                        
+                        document.getElementById("ell_h").checked = true;
+                    }
+
+            </script>
+
+    </div><!-- form-group -->
+</div>
+</br>
+<button class="btn btn-az-primary pd-x-20" type="submit">Хөрвүүлэх</button>
+</div>
+</div><!-- col -->
+<div class="col-lg-6 mg-t-50 mg-lg-t-0">
+<div class="az-content-label mg-b-5">Үр дүн</div>
+<p class="mg-b-20">	</p>
+<div class="d-flex flex-column wd-md-400 pd-30 pd-sm-40 bg-gray-200">
+    <div class="form-group">
+<label id="lbl_id_sys_out" class="form-label">Солбицлын систем:<span class="tx-danger">*</span></label>
+<select id="id_sys_out" name="sys_out" class="form-control select2-no-search" onchange="showPointG()">
+
+    <option value="TM">TM</option>
+    <option value="UTM">UTM</option>
+    <option value="WGS84" selected>WGS84</option>
+    <option value="Cartesian">Cartesian</option>
+</select>
+<script>
+        var val = '{{ form.sys_out.value }}';
+        var sel = document.getElementById('id_sys_out');
+
+        var opts = sel.options;
+            for (var opt, j = 0; opt = opts[j]; j++) {
+                if (opt.value == val) {
+                    sel.selectedIndex = j;
+                    break;
+                }
+            }
+</script>
+    </div>
+<div class="form-group">
+<label id="lbl_id_wgs_out" class="form-label">Өгөгдлийн формат:<span class="tx-danger">*</span></label>
+<select id="id_wgs_out" name="wgs_out" class="form-control select2-no-search">
+    <option value="DD">Градус (DD)</option>
+    <option value="DDM">Градус минут (DDM)</option>
+    <option value="DMS">Градус минут секунд (DMS)</option>
+</select>
+<script>
+    var val = '{{ form.wgs_out.value }}';
+    var sel = document.getElementById('id_wgs_out');
+
+    var opts = sel.options;
+        for (var opt, j = 0; opt = opts[j]; j++) {
+            if (opt.value == val) {
+                sel.selectedIndex = j;
+
+                break;
+            }
+        }
+</script>
+</div>
+<div class="form-group">
+<label id="lbl_id_zone_out" class="form-label"  style="display:none">Бүс:<span class="tx-danger">*</span></label>
+<select id="id_zone_out" name="zone_out" class="form-control select2-no-search"  style="display:none">
+    <option value="0">Сонгоно уу</option>
+    <option value="45">45</option>
+    <option value="46">46</option>
+    <option value="47">47</option>
+    <option value="48">48</option>
+    <option value="49">49</option>
+    <option value="50">50</option>
+</select>
+<script>
+        var val = '{{ form.zone_out.value }}';
+        var sel = document.getElementById('id_zone_out');
+
+        var opts = sel.options;
+            for (var opt, j = 0; opt = opts[j]; j++) {
+                if (opt.value == val) {
+                    sel.selectedIndex = j;
+
+                    break;
+                }
+            }
+</script>
+</div>
+<div class="form-group">
+<label id="lbl_garalt" class="form-label">Оронгийн нарийвчлал (.):<span class="tx-danger">*</span></label>
+<select id="out" name="out" class="form-control select2-no-search wd-60">
+    <option value="1">1</option>
+    <option value="2">2</option>
+    <option value="3" selected="3">3</option>
+    <option value="4">4</option>
+    <option value="5">5</option>
+    <option value="6">6</option>
+    <option value="7">7</option>
+    <option value="8">8</option>
+</select>
+<script>
+        var val = '{{ form.out.value }}';
+        var sel = document.getElementById('out');
+
+        var opts = sel.options;
+            for (var opt, j = 0; opt = opts[j]; j++) {
+                if (opt.value == val) {
+                    sel.selectedIndex = j;
+
+                    break;
+                }
+            }
+</script>
+</div>
+<div id="g_x" class="form-group">
+    <input type="text" name="x_out" class="form-control" style="font-size:18px;" placeholder="Хөрвүүлэлтийн үр дүнд гарна" id="id_x_out" value="{{ form.x_out.value|default_if_none:'' }}">
+</div><!-- form-group -->
+<div id="g_y" class="form-group">
+    <input type="text" name="y_out" class="form-control" style="font-size:18px;"  placeholder="Хөрвүүлэлтийн үр дүнд гарна" id="id_y_out" value="{{ form.y_out.value|default_if_none:'' }}">
+</div><!-- form-group -->
+<div id="g_z" class="form-group">
+    <input type="text" name="z_out" class="form-control" style="font-size:18px;" placeholder="Хөрвүүлэлтийн үр дүнд гарна" id="id_z_out" value="{{ form.z_out.value|default_if_none:'' }}">
+</div><!-- form-group -->
+
+
+</div>
+</div><!-- col-->
+</div><!-- row -->
+
+<hr class="mg-y-30 mg-lg-y-50">
+
+<div class="az-content-label mg-b-5">Хөрвүүлэлтийн үр дүн</div>
+
+    <div id = "map" style="width: 100%; height: 500px; position: relative; outline: none; " >
+
+    </div>
+    <script>
+            var map = L.map('map').setView([47, 107], 5.4);
+            L.esri.basemapLayer('Imagery').addTo(map);
+            L.esri.basemapLayer('ImageryLabels').addTo(map);
+            var x_map = '{{ x_map }}';
+            var y_map = '{{ y_map }}';
+            L.marker([x_map,y_map]).addTo(map);
+
+    </script>
+<script>
+        function showEll() {
+            var checkBox = document.getElementById("ell_h");
+
+            if (checkBox.checked == true){
+                ell.style.display = "block";
+            } else {
+                ell.style.display = "none";
+            }
+        }
+
+        function showPoint()
+  {
+    var selectBox = document.getElementById('id_sys_in');
+
+    var userInput = selectBox.options[selectBox.selectedIndex].value;
+                
+
+                if(userInput == 'TM' || userInput == 'UTM' )
+                 {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "none";
+                    id_zone_in.style.display = "block";
+                    lbl_id_zone_in.style.display = "block";
+                    ell_div.style.display = "block";
+                    id_wgs_in.style.display = "none";
+                    lbl_wgs_in.style.display = "none";
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "x (m)";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "y (m)";
+
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "x (m)";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "y (m)";
+                }
+                if(userInput == 'WGS84' )
+                {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "none";
+                    id_zone_in.style.display = "none";
+                    lbl_id_zone_in.style.display = "none";
+                    ell_div.style.display = "block";
+                    id_wgs_in.style.display = "block";
+                    lbl_wgs_in.style.display = "block";
+
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "Өргөрөг(B):";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "Уртраг(L):";
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "B";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "L";
+                }
+                if(userInput == 'Cartesian' )
+                {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "block";
+                    id_zone_in.style.display = "none";
+                    lbl_id_zone_in.style.display = "none";
+                    ell_div.style.display = "none";
+                    id_wgs_in.style.display = "none";
+                    lbl_wgs_in.style.display = "none";
+                    lbl_z_in.style.display = "block";
+                    id_z_in.style.display = "block";
+
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "X(m)";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "Y(m)";
+                    var input = document.getElementById ("lbl_z_in");
+                    input.innerHTML = "Z(m)";
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "X";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "Y";
+                    var input = document.getElementById ("id_z_in");
+                    input.placeholder = "Z";
+                }
+
+            }
+            function showPointG()
+            {
+                var selectBox = document.getElementById('id_sys_out');
+
+                var userInput = selectBox.options[selectBox.selectedIndex].value;
+                if(userInput =="UTM" || userInput=="TM")
+                {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "block";
+                    id_zone_out.style.display ="block";
+                    id_wgs_out.style.display = "none";
+                    lbl_id_wgs_out.style.display = "none";
+                    lbl_id_zone_out.style.display = "block";
+
+
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "x (m)";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "y (m)";
+                }
+                if(userInput =="WGS84")
+                {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "block";
+                    id_zone_out.style.display ="none";
+                    id_wgs_out.style.display = "block";
+                    lbl_id_wgs_out.style.display = "block";
+                    lbl_id_zone_out.style.display = "none";
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "B";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "L";
+                    var input = document.getElementById ("id_z_out");
+                    input.placeholder = "H";
+                }
+                if(userInput == 'Cartesian' )
+                 {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "block";
+                    id_zone_out.style.display = "none";
+                    id_wgs_out.style.display = "none";
+                    lbl_id_wgs_out.style.display = "none";
+                    lbl_id_zone_out.style.display = "none";
+                    
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "X";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "Y";
+                    var input = document.getElementById ("id_z_out");
+                    input.placeholder = "Z";
+                }
+
+
+            }
+</script>
+<script>
+        var userInput = '{{ form.sys_in.value }}';
+                if(userInput == 'TM' || userInput == 'UTM' )
+                {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "none";
+                    id_zone_in.style.display = "block";
+                    lbl_id_zone_in.style.display = "block";
+                    ell_div.style.display = "none";
+                    id_wgs_in.style.display = "none";
+                    lbl_wgs_in.style.display = "none";
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "x (m)";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "y (m)";
+
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "x (m)";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "y (m)";
+                    
+                }
+                if(userInput == 'WGS84' )
+                {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "none";
+                    id_zone_in.style.display = "none";
+                    lbl_id_zone_in.style.display = "none";
+                    ell_div.style.display = "block";
+                    id_wgs_in.style.display = "block";
+                    lbl_wgs_in.style.display = "block";
+
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "Өргөрөг(B):";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "Уртраг(L):";
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "B";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "L";
+                }
+                if(userInput == 'Cartesian' )
+                {
+                    p_x.style.display = "block";
+                    p_y.style.display = "block";
+                    p_z.style.display = "block";
+                    id_zone_in.style.display = "none";
+                    lbl_id_zone_in.style.display = "none";
+                    ell_div.style.display = "none";
+                    id_wgs_in.style.display = "none";
+                    lbl_wgs_in.style.display = "none";
+                    lbl_z_in.style.display = "block";
+                    id_z_in.style.display = "block";
+
+                    var input = document.getElementById ("lbl_x_in");
+                    input.innerHTML = "X(m)";
+                    var input = document.getElementById ("lbl_y_in");
+                    input.innerHTML = "Y(m)";
+                    var input = document.getElementById ("lbl_z_in");
+                    input.innerHTML = "Z(m)";
+                    var input = document.getElementById ("id_x_in");
+                    input.placeholder = "X";
+                    var input = document.getElementById ("id_y_in");
+                    input.placeholder = "Y";
+                    var input = document.getElementById ("id_z_in");
+                    input.placeholder = "Z";
+                }
+
+                var userInput = '{{ form.sys_out.value }}';
+                if(userInput =="UTM" || userInput=="TM")
+                {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "none";
+                    id_zone_out.style.display ="block";
+                    id_wgs_out.style.display = "none";
+                    lbl_id_wgs_out.style.display = "none";
+                    lbl_id_zone_out.style.display = "block";
+
+
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "x (m)";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "y (m)";
+                }
+                if(userInput =="WGS84")
+                {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "block";
+                    id_zone_out.style.display ="none";
+                    id_wgs_out.style.display = "block";
+                    lbl_id_wgs_out.style.display = "block";
+                    lbl_id_zone_out.style.display = "none";
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "B";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "L";
+                    var input = document.getElementById ("id_z_out");
+                    input.placeholder = "H";
+                }
+                if(userInput == 'Cartesian' )
+                 {
+                    g_x.style.display = "block";
+                    g_y.style.display = "block";
+                    g_z.style.display = "block";
+                    id_zone_out.style.display = "none";
+                    id_wgs_out.style.display = "none";
+                    lbl_id_wgs_out.style.display = "none";
+                    lbl_id_zone_out.style.display = "none";
+                    
+                    var input = document.getElementById ("id_x_out");
+                    input.placeholder = "X";
+                    var input = document.getElementById ("id_y_out");
+                    input.placeholder = "Y";
+                    var input = document.getElementById ("id_z_out");
+                    input.placeholder = "Z";
+                }
+
+</script>
+
+</form>
+{% endblock %}
+
+
+ 

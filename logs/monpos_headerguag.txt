@@ -1,0 +1,5 @@
+update_insert:
+O-DOA1: 
+"REC # / TYPE / VERS" : { 1:"AERAT1675_542E"}
+"ANT # / TYPE" : {1:"ACC2G1215A_XT_1", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1", 1:"0", 2:"0" }

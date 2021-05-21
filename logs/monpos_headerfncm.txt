@@ -1,0 +1,5 @@
+update_insert:
+O-N298: 
+"REC # / TYPE / VERS" : { 1:"JAVAD QUA_G3D SIGMA"}
+"ANT # / TYPE" : {1:"ASH701945D_M", 2:"SCIS"}
+"ANTENNA: DELTA H/E/N" : { 0:"1", 1:"0", 2:"0" }

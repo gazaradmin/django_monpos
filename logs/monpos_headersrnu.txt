@@ -1,0 +1,50 @@
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }
+update_insert:
+O-8383: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM57971.00", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }

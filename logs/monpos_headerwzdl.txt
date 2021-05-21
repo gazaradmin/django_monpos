@@ -1,0 +1,5 @@
+update_insert:
+O-UUB0: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE NETR9"}
+"ANT # / TYPE" : {1:"TRM59900.00", 2:"SCIS"}
+"ANTENNA: DELTA H/E/N" : { 0:"0.0", 1:"0", 2:"0" }

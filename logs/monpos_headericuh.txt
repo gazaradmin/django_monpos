@@ -1,0 +1,5 @@
+update_insert:
+O-N298: 
+"REC # / TYPE / VERS" : { 1:"CHC X360"}
+"ANT # / TYPE" : {1:"ASH700718A1", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1", 1:"0", 2:"0" }

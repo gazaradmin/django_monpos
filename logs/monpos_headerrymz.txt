@@ -1,0 +1,5 @@
+update_insert:
+O-5400: 
+"REC # / TYPE / VERS" : { 1:"TRIMBLE R8 GNSS"}
+"ANT # / TYPE" : {1:"TRMR8_GNSS", 2:"NONE"}
+"ANTENNA: DELTA H/E/N" : { 0:"1.318", 1:"0", 2:"0" }
